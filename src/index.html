@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>John Doe (page de démonstration) — Développeur front senior, Paris</title>
+<meta name="description" content="Page de démonstration : John Doe n'existe pas. Maquette de portefolio pour un développeur front senior à Paris : interfaces web performantes et accessibles. React, Vue, TypeScript, design systems, WebGL. Douze ans de métier, quarante projets livrés.">
+<meta name="author" content="John Doe">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="John Doe (démo) — Développeur front senior, Paris">
+<meta property="og:description" content="Page de démonstration. Interfaces web performantes et accessibles. React, Vue, TypeScript, design systems, WebGL.">
+<meta property="og:locale" content="fr_FR">
+<!-- La police des titres part en téléchargement tout de suite, en parallèle du
+     reste. C'est ce que Google Fonts rendait impossible : l'adresse du fichier
+     était cachée dans une feuille de style qu'il fallait d'abord aller
+     chercher sur un autre domaine. `crossorigin` est obligatoire pour les
+     polices, même servies depuis chez soi. -->
+<link rel="preload" href="asset/petrona-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="asset/petrona-600-italique-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌤️</text></svg>">
+<style>
+
+  /* ---------------------------------------------------------
+     Petrona 600 — servie depuis le dossier du site
+     (Petrona, par Ringo R. Seeber — licence SIL Open Font 1.1,
+      texte complet dans asset/OFL-petrona.txt, à conserver avec les
+      fichiers .woff2 en cas de redistribution)
+
+     Servie depuis le même serveur que la page et déclarée en `preload`, elle
+     arrive avant le premier rendu : `swap` n'a donc, en pratique, jamais à
+     échanger quoi que ce soit sous les yeux du lecteur. C'est le trajet vers
+     Google Fonts — deux domaines, deux poignées de main, et l'adresse du
+     fichier cachée dans une feuille de style — qui faisait clignoter le titre.
+
+     Deux tranches par style : le latin (accents français compris) et son
+     complément, que le navigateur ne va chercher que s'il rencontre un
+     caractère qui l'exige.
+     --------------------------------------------------------- */
+  @font-face {
+    font-family: 'Petrona';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('asset/petrona-600-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Petrona';
+    font-style: italic;
+    font-weight: 600;
+    font-display: swap;
+    src: url('asset/petrona-600-italique-latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Petrona';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('asset/petrona-600-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  @font-face {
+    font-family: 'Petrona';
+    font-style: italic;
+    font-weight: 600;
+    font-display: swap;
+    src: url('asset/petrona-600-italique-latin-ext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+
+  /* ---------------------------------------------------------
+     Palette « bleu d'encre »
+
+     Deux tons seulement : un bleu d'encre pour les titres et les boutons, un
+     gris de plomb pour les sur-titres, les liens et les étiquettes. Le fond
+     n'est ni blanc ni crème mais un papier très légèrement gris-vert, qui
+     tient le bleu sans le refroidir.
+
+     Chaque teinte est doublée d'un triplet `-rvb` : c'est ce qui permet
+     d'écrire `rgb(var(--parchemin-rvb) / 0.74)` pour les voiles et les verres
+     dépolis, plutôt que de recopier les valeurs à la main — la vingtaine de
+     `rgba()` de cette feuille était le vrai obstacle au changement de palette.
+
+     Les valeurs ne sont pas choisies à l'œil mais vérifiées : sur le fond, le
+     texte courant donne 14,5:1, le gris discret 5,01:1, le gris de plomb
+     6,45:1, le bleu d'encre 5,87:1 ; du blanc sur le bleu foncé, 8,59:1. Le
+     seuil AA (4,5:1, ou 3:1 pour les grands textes) est tenu partout.
+     --------------------------------------------------------- */
+  :root {
+    --font-display: "Petrona", Georgia, "Iowan Old Style", "Times New Roman", "Noto Serif", serif;
+    --parchemin-rvb: 244 245 243;
+    --encre-rvb: 28 34 48;
+    --accent-fort-rvb: 47 74 134;
+    --second-rvb: 79 90 99;
+    /* La couleur du raccord, sous le décor. Ce n'est pas un vert de charte :
+       c'est la moyenne relevée sur les dernières lignes du canevas, au fil
+       du vol — un olive, parce qu'au ras du sol le paysage est fait autant
+       d'ombres et de bosquets que d'herbe. Relevée sur 42 images réparties
+       sur une quarantaine de secondes : le décor passe de bois sombres en
+       champs clairs, une couleur fixe ne peut que viser la moyenne.
+       Le filet est ce même olive, assombri. */
+    --raccord-rvb: 112 127 66;
+    --raccord-trait-rvb: 72 84 40;
+
+    /* Le voile de lisibilité du décor. Il est ici, et non dans la règle qui
+       l'emploie, parce qu'il sert à deux endroits : sur le décor lui-même et
+       sur la bande de raccord qui le prolonge. Les deux doivent éclaircir la
+       gauche exactement pareil — recopié, l'un aurait fini par dériver de
+       l'autre, et la couture se serait vue. */
+    --voile-decor: linear-gradient(100deg,
+      rgb(var(--parchemin-rvb) / 0.94) 0%,
+      rgb(var(--parchemin-rvb) / 0.82) 28%,
+      rgb(var(--parchemin-rvb) / 0.26) 52%,
+      rgb(var(--parchemin-rvb) / 0) 70%);
+
+    --parchemin: rgb(var(--parchemin-rvb));
+    --papier: #fdfdfc;
+    --encre: rgb(var(--encre-rvb));
+    --encre-douce: #454b5a;
+    --encre-discrete: #646977;   /* 5,01:1 sur le fond */
+    --accent: #3f5d9e;           /* bleu d'encre : titres et accents */
+    --accent-fort: rgb(var(--accent-fort-rvb));   /* aplats sous texte blanc */
+    --accent-clair: #a8c0ec;     /* bleu clair sur fond encre */
+    --second: rgb(var(--second-rvb));             /* gris de plomb */
+    --dispo: #357449;            /* le vert de la pastille, 5,3:1 */
+    --filet: rgb(var(--second-rvb) / 0.16);
+    --ombre: 0 14px 40px rgb(var(--encre-rvb) / 0.07);
+    /* Le texte courant n'est pas téléchargé : c'est la police d'interface du
+       système — San Francisco, Segoe UI ou Roboto selon la machine. Seuls les
+       titres ont un fichier à charger. */
+    --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --largeur: 1120px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    font-family: var(--font-body);
+    font-weight: 300;
+    color: var(--encre);
+    background: var(--parchemin);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--second); }
+  :focus-visible {
+    outline: 2.5px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* ---------------------------------------------------------
+     Marqueur de démonstration
+     Une pastille contre le nom, dans la barre : discrète, mais toujours sous
+     les yeux. Le détail — personne, entreprises, chiffres et témoignages
+     inventés — est donné en pied de page.
+     --------------------------------------------------------- */
+  .pastille-demo {
+    font-family: var(--font-body); font-weight: 500;
+    font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: #fff; background: var(--accent-fort);
+    border-radius: 5px; padding: 3px 7px;
+    margin-left: 8px; align-self: center;
+  }
+
+  /* Le lien d'évitement : premier élément focalisable de la page, invisible
+     jusqu'à ce qu'on l'atteigne au clavier. */
+  .evitement {
+    position: absolute; left: 12px; top: -60px; z-index: 50;
+    background: var(--encre); color: var(--parchemin);
+    padding: 10px 18px; border-radius: 0 0 10px 10px;
+    text-decoration: none; font-size: 0.9rem;
+    transition: top 0.2s ease;
+  }
+  .evitement:focus { top: 0; }
+
+  /* ---------------------------------------------------------
+     Barre de navigation
+     Du verre dépoli, dès le haut de la page : on devine le paysage qui défile
+     derrière, sans que le texte ait à lutter contre lui. Le voile s'épaissit
+     un peu quand on quitte le paysage (classe posée en JS), parce qu'il n'y a
+     plus rien à laisser deviner.
+     --------------------------------------------------------- */
+  .barre {
+    position: sticky; top: 0; z-index: 20;
+    background: rgb(var(--parchemin-rvb) / 0.40);
+    -webkit-backdrop-filter: saturate(135%) blur(14px);
+    backdrop-filter: saturate(135%) blur(14px);
+    transition: background-color 0.35s ease, box-shadow 0.35s ease;
+  }
+  .barre--posee {
+    background: rgb(var(--parchemin-rvb) / 0.80);
+    box-shadow: 0 1px 0 var(--filet);
+  }
+  /* Sans flou, un voile à 40 % laisserait le paysage traverser le texte : on
+     le rend alors franchement opaque. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .barre { background: rgb(var(--parchemin-rvb) / 0.92); }
+  }
+  .barre-inner {
+    max-width: var(--largeur); margin: 0 auto;
+    padding: 14px clamp(20px, 5vw, 56px);
+    display: flex; align-items: center; gap: 18px;
+  }
+  .barre nav { margin-left: auto; }
+  .menu a, .barre .btn { white-space: nowrap; }
+
+  /* `inline-flex` plutôt qu'un enchaînement de boîtes en ligne : c'est ce qui
+     permet à la pastille de se caler sur le centre du nom (`align-self`) sans
+     dépendre des métriques de la police d'affichage. Le calage à la main qui
+     tenait ici — un `vertical-align` en pixels — était juste pour Fraunces, et
+     s'est décalé le jour où la police a changé. Pas d'espace dans le balisage
+     entre le nom, le point et la pastille : rien à rattraper côté blancs. */
+  .monogramme {
+    display: inline-flex; align-items: baseline;
+    font-family: var(--font-display); font-weight: 600; font-size: 1.15rem;
+    text-decoration: none; color: var(--encre); white-space: nowrap;
+  }
+  .monogramme > span:first-of-type { color: var(--accent); }
+  .menu { display: flex; gap: 18px; list-style: none; }
+  .menu a {
+    text-decoration: none; color: var(--encre-douce); font-size: 0.93rem;
+    padding-bottom: 3px; border-bottom: 1.5px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .menu a:hover { color: var(--encre); }
+  .menu a[aria-current="true"] { color: var(--encre); border-bottom-color: var(--accent); }
+  .barre .btn { padding: 9px 20px; font-size: 0.9rem; }
+
+  /* ---- La zone qui accueille le décor 3D ---- */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    margin-top: -74px;          /* la barre flotte par-dessus le paysage */
+    padding-top: 74px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--parchemin);
+  }
+  /* Le calque déborde d'un pixel en bas et à droite. La hauteur du hero vaut
+     `100svh`, souvent un nombre à virgule ; le canevas, arrondi au pixel,
+     laissait alors paraître un cheveu du fond de la page sous le paysage. Le
+     hero étant en `overflow: hidden`, ce pixel de trop est rogné : il ne se
+     voit pas, mais il ne laisse plus de jour. */
+  #paysage3d { position: absolute; inset: 0 -1px -1px 0; z-index: 0; }
+  #paysage3d canvas { display: block; width: 100%; height: 100%; }
+
+  /* Voile de lisibilité : le texte reste net par-dessus le paysage.
+
+     Un seul dégradé, de gauche à droite, et il ne sert qu'au texte.
+
+     Il y en avait un second, du bas vers le haut, qui fondait le décor dans le
+     fond de la page. Il est retiré : le paysage se voit jusqu'au dernier pixel,
+     et la jonction avec la section suivante est franche.
+
+     Pour le remettre — une bande étroite suffit à fermer la couture sans se
+     voir — ajouter après la virgule :
+
+       linear-gradient(to top,
+         rgb(var(--parchemin-rvb) / 0.92) 0%,
+         rgb(var(--parchemin-rvb) / 0.40) 2.5%,
+         rgb(var(--parchemin-rvb) / 0.16) 7%,
+         rgb(var(--parchemin-rvb) / 0) 15%)
+  */
+  .hero-veil {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background: var(--voile-decor);
+  }
+
+  /* ---- La transition sous le décor ----
+
+     Le décor s'arrête net sur le fond de la page. Plutôt que de voiler son
+     bas de blanc — c'est ce qu'on faisait, et cela mangeait les derniers
+     pixels du paysage —, on prolonge son vert par-dessous, en le laissant
+     s'éteindre.
+
+     Sa marge négative annule sa propre hauteur : la bande ne pousse rien et
+     ne décale aucune section. Elle se pose dans le rembourrage haut de « À
+     propos », qui est vide et toujours plus grand qu'elle. */
+  .transition-verte {
+    --h: clamp(24px, 3vw, 32px);
+    position: relative; z-index: 0;
+    height: var(--h); margin-bottom: calc(-1 * var(--h));
+    pointer-events: none;
+    background-repeat: no-repeat;
+
+    /* Une ombre n'est pas une rampe : c'est une ombre de contact, très courte
+       et dense contre l'arête, doublée d'une ombre ambiante large et très
+       faible. Une seule rampe ne peut pas être les deux — courte elle fait
+       une marche, longue elle fait un flou. Trois couches superposées, de
+       portées et de densités différentes, donnent le relief sans la zone
+       trouble.
+
+       Chacune décroît en courbe et non en droite : une décroissance douce
+       enlève à la fois l'aspect « bande » et les marches de dégradé.
+
+       De la plus haute à la plus basse : */
+    background-image:
+      /* 1. Le filet de séparation, comme sur les boîtes de la page — en vert
+            assombri plutôt qu'en gris de plomb, puisqu'il ferme un paysage.
+            Il s'éclaircit vers la gauche comme le reste, mais moins fort que
+            le voile : celui-ci l'effacerait presque, or un filet qui
+            disparaît ne sépare plus rien. */
+      linear-gradient(100deg,
+        rgb(var(--raccord-trait-rvb) / 0.11) 0%,
+        rgb(var(--raccord-trait-rvb) / 0.20) 28%,
+        rgb(var(--raccord-trait-rvb) / 0.33) 52%,
+        rgb(var(--raccord-trait-rvb) / 0.38) 70%),
+      /* 2. Le même voile que sur le décor : sans lui, la gauche de la bande
+            serait franchement verte là où le paysage, lui, est presque
+            blanc — et la couture réapparaîtrait, à l'horizontale cette fois. */
+      var(--voile-decor),
+      /* 3. L'ombre de contact : cinq pixels, dense. C'est elle qui donne
+            l'arête. */
+      linear-gradient(to bottom,
+        rgb(var(--raccord-rvb) / 0.5) 0%,
+        rgb(var(--raccord-rvb) / 0.31) 20%,
+        rgb(var(--raccord-rvb) / 0.175) 40%,
+        rgb(var(--raccord-rvb) / 0.085) 60%,
+        rgb(var(--raccord-rvb) / 0.03) 80%,
+        rgb(var(--raccord-rvb) / 0) 100%),
+      /* 4. L'ombre intermédiaire : quatorze pixels, moitié moins dense. */
+      linear-gradient(to bottom,
+        rgb(var(--raccord-rvb) / 0.24) 0%,
+        rgb(var(--raccord-rvb) / 0.149) 20%,
+        rgb(var(--raccord-rvb) / 0.084) 40%,
+        rgb(var(--raccord-rvb) / 0.041) 60%,
+        rgb(var(--raccord-rvb) / 0.014) 80%,
+        rgb(var(--raccord-rvb) / 0) 100%),
+      /* 5. L'ombre ambiante : toute la bande, à peine visible. C'est elle qui
+            donne la profondeur — seule, on ne la remarquerait pas. */
+      linear-gradient(to bottom,
+        rgb(var(--raccord-rvb) / 0.11) 0%,
+        rgb(var(--raccord-rvb) / 0.068) 20%,
+        rgb(var(--raccord-rvb) / 0.038) 40%,
+        rgb(var(--raccord-rvb) / 0.019) 60%,
+        rgb(var(--raccord-rvb) / 0.007) 80%,
+        rgb(var(--raccord-rvb) / 0) 100%);
+
+    /* La portée de chaque couche. Le filet fait un pixel ; les deux ombres
+       courtes sont en pixels fixes, pour que le relief ne s'étire pas avec
+       la fenêtre ; l'ambiante occupe toute la bande. */
+    background-size: 100% 1px, 100% 100%, 100% 5px, 100% 14px, 100% 100%;
+  }
+
+  .hero-inner {
+    position: relative; z-index: 3;
+    max-width: var(--largeur); width: 100%;
+    margin: 0 auto; padding: 0 clamp(24px, 5vw, 56px);
+  }
+  .kicker {
+    font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+    font-size: 0.8rem; color: var(--second); margin-bottom: 1.1rem;
+  }
+  h1 {
+    font-family: var(--font-display); font-weight: 600; line-height: 1.1;
+    font-size: clamp(2.5rem, 6.2vw, 4.4rem);
+    margin-bottom: 1.2rem; max-width: 17ch;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .lede {
+    font-size: clamp(1.02rem, 1.5vw, 1.2rem); color: var(--encre-douce);
+    max-width: 48ch; margin-bottom: 1.6rem;
+  }
+  .dispo {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-size: 0.86rem; color: var(--second);
+    background: rgb(var(--second-rvb) / 0.09);
+    border-radius: 999px; padding: 6px 16px 6px 12px;
+    margin-bottom: 1.8rem;
+  }
+  .pastille {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--dispo); box-shadow: 0 0 0 3px rgb(53 116 73 / 0.22);
+  }
+  .actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 13px 26px; border-radius: 999px;
+    font-weight: 500; text-decoration: none; font-size: 0.98rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .btn-primary { background: var(--accent-fort); color: #fff; box-shadow: 0 10px 26px rgb(var(--accent-fort-rvb) / 0.26); }
+  .btn-ghost { border: 1.5px solid rgb(var(--second-rvb) / 0.55); color: var(--second); }
+  .btn:hover { transform: translateY(-2px); }
+
+  /* Depuis que le bas du décor n'est plus voilé, cet indice se retrouve à même
+     les champs — il y disparaissait. Plutôt que de remettre un voile sous lui,
+     il porte son propre halo : le texte reste sombre, et c'est le fond de la
+     page, diffusé autour des lettres, qui le détache de ce qui passe dessous. */
+  .scroll-hint {
+    position: absolute; left: 50%; bottom: 26px; z-index: 3;
+    transform: translateX(-50%);
+    font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--encre);
+   
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .scroll-hint span {
+    width: 1.5px; height: 34px; background: currentColor; opacity: 0.35;
+    /* box-shadow: 0 0 8px 2px rgb(var(--parchemin-rvb) / 0.75); */
+    animation: slide 2.4s ease-in-out infinite;
+  }
+  @keyframes slide { 0%, 100% { transform: scaleY(0.4); transform-origin: top; } 50% { transform: scaleY(1); } }
+
+  /* ---------------------------------------------------------
+     Rythme commun des sections
+     --------------------------------------------------------- */
+  .section {
+    max-width: var(--largeur); margin: 0 auto;
+    padding: clamp(64px, 9vw, 112px) clamp(24px, 5vw, 56px);
+  }
+  .section + .section { padding-top: 0; }
+  .section-tete { margin-bottom: clamp(32px, 5vw, 52px); max-width: 62ch; }
+  .section-tete .kicker { margin-bottom: 0.7rem; }
+  h2 {
+    font-family: var(--font-display); font-weight: 600; line-height: 1.15;
+    font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+  }
+  h2 em { font-style: italic; color: var(--accent); }
+  /* `:not(.kicker)` est indispensable : `.section-tete p` l'emporterait sur
+     `.kicker`, et les sur-titres de rubrique perdraient leur ardoise pour le
+     gris du texte courant — alors que celui du hero, hors de ce conteneur,
+     la garderait. Deux sur-titres de couleurs différentes dans la même page. */
+  .section-tete p:not(.kicker) { color: var(--encre-douce); margin-top: 0.9rem; }
+  h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.22rem; line-height: 1.3; }
+
+  /* ---- À propos ---- */
+  .apropos { display: grid; grid-template-columns: 1.5fr 1fr; gap: clamp(32px, 5vw, 64px); align-items: start; }
+  .apropos p { color: var(--encre-douce); margin-bottom: 1rem; max-width: 60ch; }
+  .apropos p strong { font-weight: 500; color: var(--encre); }
+  .chiffres { display: grid; gap: 2px; background: var(--filet); border-radius: 16px; overflow: hidden; list-style: none; }
+  .chiffre { background: var(--papier); padding: 20px 24px; }
+  .chiffre b {
+    display: block; font-family: var(--font-display); font-weight: 600;
+    font-size: 2rem; line-height: 1.1; color: var(--encre);
+  }
+  .chiffre span { font-size: 0.88rem; color: var(--encre-discrete); }
+
+  /* ---- Compétences ---- */
+  .socles { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .socle {
+    background: var(--papier); border: 1px solid var(--filet);
+    border-radius: 16px; padding: 24px 24px 20px;
+  }
+  .socle h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .socle p { font-size: 0.92rem; color: var(--encre-discrete); margin-bottom: 0.9rem; }
+  .etiquettes { display: flex; flex-wrap: wrap; gap: 7px; list-style: none; }
+  .etiquettes li {
+    font-size: 0.83rem; color: var(--second);
+    background: rgb(var(--second-rvb) / 0.08);
+    border-radius: 7px; padding: 3px 10px;
+  }
+
+  /* ---- Projets ---- */
+  .projets { display: grid; gap: 24px; }
+  .projet {
+    background: var(--papier); border: 1px solid var(--filet);
+    border-radius: 20px; padding: clamp(24px, 3.4vw, 38px);
+    display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(24px, 4vw, 48px);
+    box-shadow: var(--ombre);
+  }
+  /* `.projet p` porte déjà une couleur : sans le `.projet` en tête, cette
+     règle-ci perdrait la cascade et la ligne de contexte s'afficherait comme
+     un paragraphe ordinaire. */
+  .projet .projet-meta {
+    display: flex; flex-wrap: wrap; gap: 8px 16px;
+    font-size: 0.82rem; color: var(--encre-discrete);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .projet h3 { font-size: clamp(1.3rem, 2vw, 1.6rem); margin-bottom: 0.7rem; }
+  .projet p { color: var(--encre-douce); margin-bottom: 1rem; }
+  .projet .etiquettes { margin-top: 1.1rem; }
+  .resultats { list-style: none; display: grid; gap: 14px; align-content: start; }
+  .resultats li { border-left: 2px solid var(--accent); padding-left: 16px; }
+  .resultats b {
+    display: block; font-family: var(--font-display); font-weight: 600;
+    font-size: 1.5rem; line-height: 1.2;
+  }
+  .resultats span { font-size: 0.88rem; color: var(--encre-discrete); }
+
+  /* ---- Parcours ---- */
+  .parcours { list-style: none; position: relative; }
+  /* Le filet est un pseudo-élément et non une bordure : une bordure ne se
+     laisse pas tracer, un pseudo-élément se met à l'échelle. */
+  .parcours::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1.5px; background: var(--filet);
+    transform-origin: top;
+  }
+
+  .poste { position: relative; padding: 0 0 34px 28px; }
+  .poste::before {
+    content: ''; position: absolute; left: -6.5px; top: 9px;
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--parchemin); border: 2.5px solid var(--second);
+  }
+  .poste:first-child::before { border-color: var(--accent); background: var(--accent); }
+  .poste .dates { font-size: 0.84rem; color: var(--encre-discrete); letter-spacing: 0.06em; text-transform: uppercase; }
+  .poste h3 { margin: 0.2rem 0 0.1rem; }
+
+  /* La couche d'oiseaux, posée sous le texte de la rubrique. Elle n'existe
+     que si le script l'ajoute, et il ne l'ajoute qu'une fois qu'on est
+     descendu jusque-là. Le texte passe devant : il est le sujet, ils sont
+     le décor. */
+  #parcours { position: relative; }
+  /* Position et dimensions sont posées par le script : la couche va d'un
+     bord à l'autre de la fenêtre, alors que la rubrique est une colonne
+     centrée. Ici on ne fixe que ce qui ne se mesure pas. */
+  .oiseaux-parcours {
+    position: absolute; z-index: 0;
+    pointer-events: none;
+    opacity: 0.42;
+  }
+  #parcours .section-tete, #parcours .parcours { position: relative; z-index: 1; }
+  .poste .lieu { font-size: 0.95rem; color: var(--second); margin-bottom: 0.6rem; }
+  .poste ul { margin: 0 0 0 1.1rem; color: var(--encre-douce); font-size: 0.96rem; }
+  .poste li { margin-bottom: 0.25rem; }
+
+  /* ---- Deux colonnes (formation + écrits) ---- */
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 64px); }
+  .liste-sobre { list-style: none; }
+  .liste-sobre li { padding: 16px 0; border-top: 1px solid var(--filet); }
+  .liste-sobre li:first-child { border-top: 0; padding-top: 0; }
+  .liste-sobre b { font-weight: 500; }
+  .liste-sobre span { display: block; font-size: 0.9rem; color: var(--encre-discrete); }
+
+  /* ---- Témoignages ---- */
+  .paroles { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .parole {
+    background: var(--papier); border: 1px solid var(--filet);
+    border-radius: 18px; padding: 28px 30px;
+  }
+  .parole blockquote {
+    font-family: var(--font-display); font-size: 1.12rem; line-height: 1.5;
+    margin-bottom: 1.1rem;
+  }
+  .parole figcaption { font-size: 0.9rem; color: var(--encre-discrete); }
+  .parole figcaption b { display: block; font-weight: 500; color: var(--encre); }
+
+  /* ---- Contact ---- */
+  .contact {
+    background: var(--encre); color: var(--parchemin);
+    border-radius: 24px;
+    padding: clamp(36px, 5vw, 64px);
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(28px, 4vw, 56px);
+    align-items: center;
+  }
+  .contact .kicker { color: rgb(var(--parchemin-rvb) / 0.55); }
+  .contact h2 { color: var(--parchemin); }
+  .contact h2 em { color: var(--accent-clair); }
+  .contact p { color: rgb(var(--parchemin-rvb) / 0.72); margin-top: 1rem; max-width: 44ch; }
+  .coordonnees { list-style: none; display: grid; gap: 14px; }
+  .coordonnees li { display: grid; gap: 2px; }
+  .coordonnees .quoi { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgb(var(--parchemin-rvb) / 0.5); }
+  .coordonnees a, .coordonnees .valeur { color: var(--parchemin); text-decoration: none; font-size: 1.02rem; }
+  .coordonnees a { border-bottom: 1px solid rgb(var(--parchemin-rvb) / 0.3); width: fit-content; }
+  .coordonnees a:hover { border-bottom-color: var(--accent); }
+
+  /* ---- Le moulin du pied de page ----
+
+     Le paysage du haut se regarde d'un oiseau ; celui-ci se
+     regarde d'un piéton. D'où la bande d'herbe basse — trois
+     plans, du plus lointain au plus proche — surmontée d'un
+     moulin qui, lui, n'a pas changé d'échelle. */
+  .moulin-pied {
+    position: relative;
+    height: 210px;
+    overflow: hidden;          /* l'herbe va au bord, rien ne déborde */
+    pointer-events: none;
+    margin-top: clamp(48px, 7vw, 88px);
+  }
+  /* L'horizon, c'est le filet du pied de page : l'herbe vient s'y poser,
+     sans intervalle. */
+  .moulin-pied + .pied { margin-top: 0; }
+
+  .moulin-pied-sol {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 62px;
+  }
+  .sol-loin { fill: url(#sol-loin); }
+  .sol-pres { fill: url(#sol-pres); }
+  .sol-pied { fill: url(#sol-pied); }
+
+  .moulin-pied-tour {
+    position: absolute; right: 11%; bottom: 30px;
+    height: 152px; width: auto;
+  }
+  .moulin-ombre { fill: #4a7a3e; opacity: 0.28; }
+  .moulin-bois { fill: #9a7a52; }
+  .moulin-calotte { fill: #6b4a35; }
+  .moulin-calotte-ombre { fill: #543a29; }
+
+  /* Un tour d'aile en 17 secondes, à vitesse constante : la même cadence
+     que là-haut. Le sens aussi — vues de face, les ailes descendent du
+     côté de la claire-voie.
+
+     Le centre de rotation est le moyeu. Plutôt que de le pointer en unités
+     du viewBox — qui se comptent depuis un coin, et se résolvent mal —, on
+     s'appuie sur la boîte des ailes : elles sont quatre, à angle droit, donc
+     leur boîte est un carré centré sur le moyeu. `center` tombe juste, et
+     ne dépend plus du repère. */
+  .moulin-pied-rotor {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: moulin-tourne 17s linear infinite;
+  }
+  @keyframes moulin-tourne { to { transform: rotate(360deg); } }
+
+  /* Hors de l'écran, il ne sert à rien de faire tourner quoi que ce soit.
+     C'est le script qui pose cette classe — donc sans script, le moulin
+     tourne quand même : il n'y a personne pour l'endormir. */
+  .moulin-pied--dort .moulin-pied-rotor { animation-play-state: paused; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .moulin-pied-rotor { animation: none; }
+  }
+  /* Sur un écran étroit, le moulin prend trop de place : on le rapetisse
+     et on le rentre dans la page. */
+  @media (max-width: 760px) {
+    .moulin-pied { height: 158px; }
+    .moulin-pied-sol { height: 48px; }
+    .moulin-pied-tour { height: 116px; right: 6%; bottom: 22px; }
+  }
+
+  /* ---- Pied de page ---- */
+  .pied { border-top: 1px solid var(--filet); margin-top: clamp(48px, 7vw, 88px); }
+  .pied-inner {
+    max-width: var(--largeur); margin: 0 auto;
+    padding: 28px clamp(24px, 5vw, 56px) 20px;
+    display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center;
+    font-size: 0.9rem; color: var(--encre-discrete);
+  }
+  .pied-liens { display: flex; gap: 20px; margin-left: auto; list-style: none; }
+  .pied a { color: var(--encre-discrete); text-decoration: none; }
+  .pied a:hover { color: var(--encre); }
+  /* La mention est alignée sur la même colonne que le reste du pied de page,
+     mais son texte s'arrête plus tôt : une ligne de 78 caractères se lit,
+     une ligne de 130 non. */
+  .mention-ia-boite {
+    max-width: var(--largeur); margin: 0 auto;
+    padding: 0 clamp(24px, 5vw, 56px) 40px;
+  }
+  .mention-ia {
+    font-size: 0.84rem; color: var(--encre-discrete); max-width: 78ch;
+  }
+  /* Les crédits : même discrétion que la mention, mais leurs deux liens
+     doivent rester repérables — ailleurs dans le pied de page, la position
+     suffit à dire qu'un mot est cliquable ; ici, non. */
+  .credits {
+    font-size: 0.84rem; color: var(--encre-discrete); max-width: 78ch;
+    margin-bottom: 10px;
+  }
+  .credits a { text-decoration: underline; text-underline-offset: 2px; }
+
+  /* ---------------------------------------------------------
+     Apparitions au défilement
+
+     Trois règles pour que ça reste sobre : on ne touche qu'à `opacity` et
+     `transform` (le compositeur s'en charge, la mise en page n'est jamais
+     recalculée) ; les distances sont courtes et la sortie est molle, jamais
+     rebondie ; et rien ne dure au-delà d'une seconde.
+
+     Tout est désactivé si le visiteur a demandé moins d'animations, et neutre
+     si le JS ne tourne pas — la classe `js` n'est posée que par le script.
+     --------------------------------------------------------- */
+  :root {
+    --sortie: cubic-bezier(0.22, 1, 0.36, 1);   /* décélération franche, sans retour */
+    --duree-apparition: 0.8s;
+  }
+
+  /* L'état d'arrivée n'est pas déclaré : c'est l'état naturel de l'élément.
+     Seul le départ l'est, et uniquement tant que le bloc n'est pas vu — d'où
+     le `:not(.apparait--vu)` sur chaque variante.
+
+     C'est une question de spécificité, et j'y suis tombé : écrite en
+     `.apparait--vu { transform: none }` d'un côté et
+     `.apparait[data-effet="carte"] { transform: translateY(26px) }` de
+     l'autre, la seconde l'emportait — un sélecteur d'attribut pèse plus
+     qu'une classe de plus. Les cartes restaient donc décalées de 26 px pour
+     toujours. Ainsi écrit, le problème ne peut pas se poser. */
+  .js .apparait {
+    transition:
+      opacity   var(--duree-apparition) ease          var(--retard, 0s),
+      transform var(--duree-apparition) var(--sortie) var(--retard, 0s);
+  }
+  .js .apparait:not(.apparait--vu) { opacity: 0; transform: translateY(18px); }
+
+  /* Une carte vient d'un peu plus loin et se pose : l'agrandissement d'un
+     centième suffit à donner l'impression d'un objet, sans qu'on sache dire
+     ce qui a bougé. */
+  .js .apparait:not(.apparait--vu)[data-effet="carte"] {
+    transform: translateY(26px) scale(0.988);
+  }
+
+  /* Une citation ne monte pas — elle se révèle sur place. */
+  .js .apparait:not(.apparait--vu)[data-effet="citation"] { transform: scale(0.985); }
+
+  /* Le fil du parcours se trace de haut en bas. L'élément lui-même ne bouge
+     pas et ne s'estompe pas : seul son filet est animé. */
+  .js .apparait[data-effet="trait"] { opacity: 1; transform: none; }
+  .js .apparait[data-effet="trait"]::before {
+    transition: transform 1.15s var(--sortie) 0.05s;
+  }
+  .js .apparait:not(.apparait--vu)[data-effet="trait"]::before { transform: scaleY(0); }
+
+  /* ---- Entrée du hero, au chargement : le texte se lève avec la brume ---- */
+  @keyframes lever-le-texte {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .js .hero-inner > * {
+    animation: lever-le-texte 0.95s var(--sortie) both;
+  }
+  .js .hero-inner > :nth-child(1) { animation-delay: 0.20s; }
+  .js .hero-inner > :nth-child(2) { animation-delay: 0.31s; }
+  .js .hero-inner > :nth-child(3) { animation-delay: 0.42s; }
+  .js .hero-inner > :nth-child(4) { animation-delay: 0.53s; }
+  .js .hero-inner > :nth-child(5) { animation-delay: 0.64s; }
+
+  /* En mouvement réduit, le script marque tout de suite chaque bloc comme vu :
+     les états de départ ci-dessus, tous conditionnés à `:not(.apparait--vu)`,
+     ne s'appliquent alors jamais. Il ne reste que l'entrée du hero à couper. */
+  @media (prefers-reduced-motion: reduce) {
+    .js .hero-inner > * { animation: none; }
+  }
+
+  /* ---- Brume de chargement : elle occupe le terrain tant que le décor
+     n'est pas prêt, en laissant deviner les collines, puis se lève ---- */
+  .paysage3d-brume {
+    position: absolute; inset: 0; z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg,
+        #cfe3e9 0%, #dfe9e4 34%, #e9ebe6 62%, var(--parchemin) 100%);
+    animation: brume-secours 1.4s ease 11s forwards;
+  }
+  /* Les collines devinées : ce sont celles que l'animation va dessiner */
+  .paysage3d-brume i {
+    position: absolute; display: block;
+    border-radius: 50% 50% 0 0;
+    filter: blur(16px);
+  }
+  .paysage3d-brume i:nth-child(1) { left: -14%; right: 30%; bottom: -4%; height: 38%; background: #b3cb8b; opacity: 0.88; }
+  .paysage3d-brume i:nth-child(2) { left: 22%; right: -18%; bottom: -6%; height: 46%; background: #9dbd7c; opacity: 0.76; }
+  .paysage3d-brume i:nth-child(3) { left: 4%; right: 8%; bottom: -12%; height: 32%; background: #c9b47c; opacity: 0.62; }
+  /* Les bancs de brume qui dérivent */
+  .paysage3d-brume b {
+    position: absolute;
+    display: block;
+    left: -40%; right: -40%; height: 26%;
+    background: radial-gradient(60% 100% at 50% 50%, rgba(255,255,255,0.92), rgba(255,255,255,0) 72%);
+    filter: blur(14px);
+    animation: brume-derive 13s ease-in-out infinite alternate;
+  }
+  .paysage3d-brume b:nth-of-type(1) { top: 46%; animation-duration: 15s; }
+  .paysage3d-brume b:nth-of-type(2) { top: 62%; animation-duration: 19s; animation-direction: alternate-reverse; opacity: 0.75; }
+  .paysage3d-brume b:nth-of-type(3) { top: 74%; animation-duration: 23s; opacity: 0.6; }
+  .paysage3d-brume span {
+    position: absolute; left: 0; right: 0; bottom: 34px;
+    text-align: center;
+    font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--encre-douce); opacity: 0.55;
+    animation: brume-souffle 2.6s ease-in-out infinite;
+  }
+  @keyframes brume-derive {
+    from { transform: translateX(-7%) scaleY(1); }
+    to   { transform: translateX(7%) scaleY(1.25); }
+  }
+  @keyframes brume-souffle { 0%, 100% { opacity: 0.32; } 50% { opacity: 0.62; } }
+  @keyframes brume-secours { to { opacity: 0; visibility: hidden; } }
+  @media (prefers-reduced-motion: reduce) {
+    .paysage3d-brume b, .paysage3d-brume span { animation: none; }
+  }
+
+  /* ---------------------------------------------------------
+     Écrans étroits
+     --------------------------------------------------------- */
+  @media (max-width: 960px) {
+    .apropos, .projet, .duo, .paroles, .contact { grid-template-columns: 1fr; }
+    .resultats { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  }
+  @media (max-width: 760px) {
+    /* Sur un écran étroit, le texte descend jusqu'aux deux tiers du cadre —
+       c'est-à-dire précisément là où le voile en dégradé s'était éteint, d'où
+       une accroche et une pastille illisibles sur les champs.
+
+       Plutôt que de noyer tout le paysage sous un voile plus épais, le texte
+       prend son propre panneau de verre dépoli — même matière que la barre de
+       navigation. Le décor reste visible autour, et le contraste ne dépend
+       plus de ce qui passe dessous : 4,7:1 au pire (sur l'herbe sombre) pour
+       l'accroche, 9,9:1 pour le titre. */
+    .hero-veil {
+      background:
+        linear-gradient(180deg, rgb(var(--parchemin-rvb) / 0.72) 0%, rgb(var(--parchemin-rvb) / 0.28) 26%, rgb(var(--parchemin-rvb) / 0) 46%);
+    }
+    .hero { min-height: 92svh; }
+    .hero-inner {
+      width: auto; margin: 0 14px;
+      padding: 26px 22px 28px;
+      background: rgb(var(--parchemin-rvb) / 0.74);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      border-radius: 22px;
+      box-shadow: 0 18px 44px rgb(var(--encre-rvb) / 0.10);
+    }
+    /* Sans flou disponible, le panneau devient franchement opaque. */
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .hero-inner { background: rgb(var(--parchemin-rvb) / 0.93); }
+    }
+
+    /* Cinq entrées de menu ne tiennent pas sur un téléphone : on ne garde que
+       l'appel à l'action, et le pied de page rend le même service en bas. */
+    .menu { display: none; }
+    .barre .btn { margin-left: auto; }
+    .scroll-hint { display: none; }
+
+    /* Ce libellé de chargement passait par-dessus les boutons du hero, et plus
+       haut il venait buter contre le sur-titre. Sur un écran étroit on s'en
+       passe : la brume elle-même dit déjà que le décor arrive. */
+    .paysage3d-brume span { display: none; }
+    .pied-liens { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<a class="evitement" href="#contenu">Aller au contenu</a>
+
+<header class="barre" id="barre">
+  <div class="barre-inner">
+    <a class="monogramme" href="#haut">John Doe<span>.</span><span class="pastille-demo">démo</span></a>
+    <nav aria-label="Sections du site">
+      <ul class="menu">
+        <li><a href="#apropos">À propos</a></li>
+        <li><a href="#competences">Compétences</a></li>
+        <li><a href="#projets">Projets</a></li>
+        <li><a href="#parcours">Parcours</a></li>
+        <li><a href="#ecrits">Écrits</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-primary" href="#contact">Me contacter</a>
+  </div>
+</header>
+
+<main id="contenu">
+
+  <section class="hero" data-paysage3d-zone id="haut">
+    <div id="paysage3d" aria-hidden="true"></div>
+    <div class="hero-veil" aria-hidden="true"></div>
+    <div class="paysage3d-brume" id="paysage3d-brume" aria-hidden="true">
+      <i></i><i></i><i></i>
+      <b></b><b></b><b></b>
+      
+    </div>
+    <div class="hero-inner">
+      <p class="kicker">Portefolio de démonstration — développeur front senior, Paris</p>
+      <h1>Des interfaces qui <em>tiennent la route</em></h1>
+      <p class="lede">
+        Douze ans à construire des applications web pour des équipes qui doivent
+        les faire vivre longtemps. Je m'intéresse autant à ce que voit
+        l'utilisateur qu'au code que lira le prochain développeur.
+      </p>
+      <p class="dispo">
+        <span class="pastille" aria-hidden="true"></span>
+        Disponible pour une mission à partir d'octobre 2026
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#projets">Voir mes projets</a>
+        <a class="btn btn-ghost" href="#contact">Prendre contact</a>
+      </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true">Faites défiler<span></span></div>
+  </section>
+
+  <!-- Le vert du paysage se prolonge de quelques dizaines de pixels sous le
+       décor, puis s'éteint : la jonction avec la page cesse d'être une coupe
+       nette, sans qu'il ait fallu voiler de blanc le bas de l'animation. -->
+  <div class="transition-verte" aria-hidden="true"></div>
+
+  <!-- ---------------------------------------------------------
+       À propos
+       --------------------------------------------------------- -->
+  <section class="section" id="apropos">
+    <div class="apropos apparait">
+      <div>
+        <div class="section-tete">
+          <p class="kicker">À propos</p>
+          <h2>Le front, c'est là où <em>les promesses se vérifient</em></h2>
+        </div>
+        <p>
+          Je m'appelle John Doe, je vis et travaille à Paris. J'écris du code
+          d'interface depuis 2014 : d'abord des sites, puis des applications
+          métier, puis des design systems que d'autres équipes utilisent tous
+          les jours.
+        </p>
+        <p>
+          Ce qui m'intéresse aujourd'hui, c'est le moment où une interface passe
+          de « ça marche sur ma machine » à <strong>« ça tient en production, sur
+          un vieux téléphone, avec une connexion moyenne, pour quelqu'un qui
+          navigue au clavier »</strong>. C'est là que le métier se joue, et c'est
+          rarement une question de framework.
+        </p>
+        <p>
+          Je travaille volontiers au contact du design et du produit : la moitié
+          des problèmes de front se règlent mieux dans une conversation que dans
+          un ticket. J'encadre aussi des développeurs plus juniors — revues de
+          code, programmation en binôme, et l'idée tenace qu'un code lisible vaut
+          mieux qu'un code astucieux.
+        </p>
+      </div>
+      <ul class="chiffres" aria-label="Quelques repères">
+        <li class="chiffre"><b>12 ans</b><span>de développement front</span></li>
+        <li class="chiffre"><b>40+</b><span>projets mis en production</span></li>
+        <li class="chiffre"><b>3</b><span>équipes encadrées</span></li>
+        <li class="chiffre"><b>RGAA AA</b><span>niveau visé par défaut</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------
+       Compétences
+       --------------------------------------------------------- -->
+  <section class="section" id="competences">
+    <div class="section-tete apparait">
+      <p class="kicker">Compétences</p>
+      <h2>Ce que je sais faire, et comment je m'en sers</h2>
+      <p>
+        Une liste d'outils ne dit pas grand-chose. Voilà donc plutôt ce que je
+        cherche à obtenir avec chacun.
+      </p>
+    </div>
+    <div class="socles">
+      <article class="socle">
+        <h3>Le socle</h3>
+        <p>
+          Le langage avant les bibliothèques : la plupart des bugs d'interface
+          sont des bugs de modèle mental, pas de syntaxe.
+        </p>
+        <ul class="etiquettes">
+          <li>TypeScript</li><li>JavaScript moderne</li><li>HTML sémantique</li>
+          <li>CSS (grid, cascade, conteneurs)</li><li>Web Components</li>
+        </ul>
+      </article>
+      <article class="socle">
+        <h3>Applications</h3>
+        <p>
+          Construire des écrans nombreux sans que l'état devienne
+          incompréhensible six mois plus tard.
+        </p>
+        <ul class="etiquettes">
+          <li>React</li><li>Vue 3</li><li>Next.js</li><li>Nuxt</li>
+          <li>TanStack Query</li><li>Zustand</li><li>Pinia</li>
+        </ul>
+      </article>
+      <article class="socle">
+        <h3>Qualité</h3>
+        <p>
+          Des tests qui décrivent l'usage plutôt que l'implémentation — les
+          seuls qui survivent à un remaniement.
+        </p>
+        <ul class="etiquettes">
+          <li>Vitest</li><li>Testing Library</li><li>Playwright</li>
+          <li>ESLint</li><li>revue de code</li>
+        </ul>
+      </article>
+      <article class="socle">
+        <h3>Performance</h3>
+        <p>
+          Mesurer avant d'optimiser, et sur de vrais appareils plutôt que sur un
+          portable haut de gamme en Wi-Fi.
+        </p>
+        <ul class="etiquettes">
+          <li>Core Web Vitals</li><li>budgets de bundle</li>
+          <li>Lighthouse CI</li><li>profilage</li><li>rendu serveur</li>
+        </ul>
+      </article>
+      <article class="socle">
+        <h3>Accessibilité</h3>
+        <p>
+          Traitée comme une contrainte de conception, jamais comme une passe de
+          correction en fin de projet.
+        </p>
+        <ul class="etiquettes">
+          <li>RGAA</li><li>WCAG 2.2</li><li>ARIA</li>
+          <li>navigation clavier</li><li>NVDA / VoiceOver</li>
+        </ul>
+      </article>
+      <article class="socle">
+        <h3>Graphique &amp; temps réel</h3>
+        <p>
+          Quand le DOM ne suffit plus : cartes, visualisations, décors — dont
+          celui qui défile en haut de cette page.
+        </p>
+        <ul class="etiquettes">
+          <li>WebGL</li><li>Three.js</li><li>Canvas 2D</li>
+          <li>SVG</li><li>WebSocket</li><li>MapLibre</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------
+       Projets
+       --------------------------------------------------------- -->
+  <section class="section" id="projets">
+    <div class="section-tete apparait">
+      <p class="kicker">Projets</p>
+      <h2>Quatre chantiers <em>et ce qu'ils ont changé</em></h2>
+      <p>
+        Pour chacun : mon rôle réel, les contraintes, et les chiffres constatés
+        après mise en production — pas les promesses du cahier des charges.
+      </p>
+    </div>
+    <div class="projets" data-cascade>
+
+      <article class="projet apparait" data-effet="carte">
+        <div>
+          <p class="projet-meta">
+            <span>2025</span><span>Lead front</span><span>Commerce</span>
+          </p>
+          <h3>Refonte du tunnel de paiement — La Boutique Imaginaire</h3>
+          <p>
+            Un tunnel en quatre étapes que 62 % des visiteurs abandonnaient sur
+            mobile. Le diagnostic n'a pas été le design : c'était un formulaire
+            qui se réinitialisait au moindre retour en arrière, et 900 Ko de
+            JavaScript avant le premier champ affiché.
+          </p>
+          <p>
+            Reconstruit avec rendu serveur, état du panier conservé, et une
+            validation dont le client et le serveur partagent le même schéma. Le
+            paiement est devenu une seule page qui se replie sur elle-même.
+          </p>
+          <ul class="etiquettes">
+            <li>Nuxt 3</li><li>TypeScript</li><li>Zod</li><li>Stripe</li><li>Playwright</li>
+          </ul>
+        </div>
+        <ul class="resultats">
+          <li><b>−38 %</b><span>d'abandons dans le tunnel</span></li>
+          <li><b>+12 %</b><span>de conversion sur mobile</span></li>
+          <li><b>1,1 s</b><span>de LCP au lieu de 4,3 s</span></li>
+        </ul>
+      </article>
+
+      <article class="projet apparait" data-effet="carte">
+        <div>
+          <p class="projet-meta">
+            <span>2023 — 2025</span><span>Développeur senior</span><span>Observabilité</span>
+          </p>
+          <h3>Console temps réel — Château en Espagne</h3>
+          <p>
+            Une console qui affiche les journaux de production de plusieurs
+            centaines de services. Le défi n'est pas d'afficher : c'est de
+            continuer à répondre au clavier quand 4 000 lignes arrivent par
+            seconde.
+          </p>
+          <p>
+            Liste virtualisée écrite à la main, agrégation des messages hors du
+            fil principal, et rendu découplé du flux : on peint ce qu'on a à
+            l'image, pas à chaque message reçu.
+          </p>
+          <ul class="etiquettes">
+            <li>React</li><li>Web Workers</li><li>WebSocket</li>
+            <li>virtualisation</li><li>Canvas</li>
+          </ul>
+        </div>
+        <ul class="resultats">
+          <li><b>60 im/s</b><span>tenues à 4 000 messages/s</span></li>
+          <li><b>100 k</b><span>lignes navigables sans pagination</span></li>
+          <li><b>−72 %</b><span>de mémoire par onglet</span></li>
+        </ul>
+      </article>
+
+      <article class="projet apparait" data-effet="carte">
+        <div>
+          <p class="projet-meta">
+            <span>2020 — 2022</span><span>Conception &amp; réalisation</span><span>Design system</span>
+          </p>
+          <h3>Design system « Ardoise » — Groupe Dans mes rêves</h3>
+          <p>
+            Neuf équipes, quatre frameworks, et autant de boutons différents.
+            Plutôt qu'imposer une bibliothèque React à des équipes qui n'en
+            voulaient pas, nous avons livré des Web Components — utilisables
+            partout, y compris dans les applications les plus anciennes.
+          </p>
+          <p>
+            Le vrai travail a été ailleurs : documenter les intentions, pas les
+            propriétés. Un composant qu'on ne comprend pas est un composant qu'on
+            contourne.
+          </p>
+          <ul class="etiquettes">
+            <li>Web Components</li><li>Lit</li><li>Storybook</li>
+            <li>jetons de design</li><li>RGAA AA</li>
+          </ul>
+        </div>
+        <ul class="resultats">
+          <li><b>48</b><span>composants documentés</span></li>
+          <li><b>9 équipes</b><span>l'ont adopté sans obligation</span></li>
+          <li><b>AA</b><span>conformité vérifiée par audit externe</span></li>
+        </ul>
+      </article>
+
+      <article class="projet apparait" data-effet="carte">
+        <div>
+          <p class="projet-meta">
+            <span>2024</span><span>Mission indépendante</span><span>Cartographie</span>
+          </p>
+          <h3>Carte du réseau hors ligne — Régie des Transports Imaginaires</h3>
+          <p>
+            Une carte du réseau consultable par les agents de terrain, dans des
+            tunnels, sans réseau. Quatre mégaoctets de données géographiques
+            qu'il fallait rendre lisibles et interrogeables sur des téléphones
+            d'entrée de gamme.
+          </p>
+          <p>
+            Tuiles vectorielles préparées à l'avance, stockées sur l'appareil,
+            rendu WebGL, et une interface qui assume de fonctionner en mode
+            dégradé plutôt que de mentir sur son état.
+          </p>
+          <ul class="etiquettes">
+            <li>MapLibre GL</li><li>IndexedDB</li><li>Service Worker</li>
+            <li>tuiles vectorielles</li><li>Vue 3</li>
+          </ul>
+        </div>
+        <ul class="resultats">
+          <li><b>0</b><span>requête réseau après installation</span></li>
+          <li><b>2,4 s</b><span>au premier affichage de la carte</span></li>
+          <li><b>310</b><span>agents équipés</span></li>
+        </ul>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------
+       Parcours
+       --------------------------------------------------------- -->
+  <section class="section" id="parcours">
+    <div class="section-tete apparait">
+      <p class="kicker">Parcours</p>
+      <h2>Où j'ai appris tout ça</h2>
+    </div>
+    <ol class="parcours apparait" data-effet="trait">
+      <li class="poste">
+        <p class="dates">2022 — aujourd'hui</p>
+        <h3>Lead développeur front</h3>
+        <p class="lieu">Château en Espagne — Paris 11<sup>e</sup></p>
+        <ul>
+          <li>Responsable technique du front d'une plateforme d'observabilité, huit développeurs.</li>
+          <li>Migration progressive d'une application React historique, sans gel des livraisons.</li>
+          <li>Mise en place des budgets de performance et de leur suivi en intégration continue.</li>
+        </ul>
+      </li>
+      <li class="poste">
+        <p class="dates">2018 — 2022</p>
+        <h3>Développeur front senior</h3>
+        <p class="lieu">Groupe Dans mes rêves — Paris La Défense</p>
+        <ul>
+          <li>Conception et réalisation du design system utilisé par neuf équipes produit.</li>
+          <li>Accompagnement des équipes à l'accessibilité : ateliers, revues, audits.</li>
+          <li>Référent technique sur le rendu serveur et les temps de chargement.</li>
+        </ul>
+      </li>
+      <li class="poste">
+        <p class="dates">2015 — 2018</p>
+        <h3>Développeur front</h3>
+        <p class="lieu">Atelier Pour de faux — Paris 10<sup>e</sup></p>
+        <ul>
+          <li>Sites et applications pour des clients culturels et institutionnels.</li>
+          <li>Passage de jQuery à Vue puis React, sur des projets réels et livrés.</li>
+        </ul>
+      </li>
+      <li class="poste">
+        <p class="dates">2014 — 2015</p>
+        <h3>Intégrateur web, indépendant</h3>
+        <p class="lieu">Paris</p>
+        <ul>
+          <li>Intégration HTML et CSS pour des studios de design. L'école de la rigueur.</li>
+        </ul>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ---------------------------------------------------------
+       Formation + écrits
+       --------------------------------------------------------- -->
+  <section class="section" id="ecrits">
+    <div class="duo">
+      <div class="apparait">
+        <div class="section-tete">
+          <p class="kicker">Formation</p>
+          <h2>Diplômes &amp; certifications</h2>
+        </div>
+        <ul class="liste-sobre">
+          <li>
+            <b>Master informatique, spécialité génie logiciel</b>
+            <span>Université de Nulle Part — 2014</span>
+          </li>
+          <li>
+            <b>Licence MIAGE</b>
+            <span>Institut du Grand Peut-être — 2012</span>
+          </li>
+          <li>
+            <b>Certification qualité web — Institut des Bonnes Intentions</b>
+            <span>2023, niveau expert</span>
+          </li>
+          <li>
+            <b>Formation à l'accessibilité numérique (RGAA)</b>
+            <span>2021</span>
+          </li>
+        </ul>
+      </div>
+      <div class="apparait">
+        <div class="section-tete">
+          <p class="kicker">Écrits &amp; scène</p>
+          <h2>Ce que je partage</h2>
+        </div>
+        <ul class="liste-sobre">
+          <li>
+            <b>« Rendre le WebGL discret »</b>
+            <span>Rencontres Chimériques du Web 2025 — conférence, 35 minutes</span>
+          </li>
+          <li>
+            <b>« Un design system qu'on n'a pas envie de contourner »</b>
+            <span>Article, 2023 — traduit en anglais et en espagnol</span>
+          </li>
+          <li>
+            <b>« Mesurer avant d'optimiser »</b>
+            <span>Meetup Nulle-Part.js, 2024 — format éclair</span>
+          </li>
+          <li>
+            <b>Trois petites bibliothèques en logiciel libre</b>
+            <span>Virtualisation de listes, jetons de design, tests d'accessibilité</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------
+       Témoignages
+       --------------------------------------------------------- -->
+  <section class="section">
+    <div class="section-tete apparait">
+      <p class="kicker">Ils ont travaillé avec moi</p>
+      <h2>Deux avis</h2>
+      <p>
+        Comme le reste de cette page de démonstration, ces deux personnes et
+        leurs entreprises sont imaginaires.
+      </p>
+    </div>
+    <div class="paroles">
+      <figure class="parole">
+        <blockquote>
+          « John est le premier développeur front avec qui j'ai pu discuter d'un
+          parcours utilisateur sans passer par la case “ce n'est pas possible”.
+          Quand ça ne l'est pas, il explique pourquoi — et il propose autre
+          chose. »
+        </blockquote>
+        <figcaption>
+          <b>Amina Rousset</b>
+          Directrice produit, Château en Espagne
+        </figcaption>
+      </figure>
+      <figure class="parole">
+        <blockquote>
+          « Il a repris un design system que personne n'utilisait et l'a rendu
+          désirable. Deux ans plus tard, les équipes demandent les composants
+          plutôt que de les réécrire. C'est assez rare pour être signalé. »
+        </blockquote>
+        <figcaption>
+          <b>Thomas Vieilledent</b>
+          Responsable design, Groupe Dans mes rêves
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------
+       Contact
+       --------------------------------------------------------- -->
+  <section class="section" id="contact">
+    <div class="contact apparait">
+      <div>
+        <p class="kicker">Contact</p>
+        <h2>Un projet, une équipe à renforcer, <em>ou juste une question ?</em></h2>
+        <p>
+          Écrivez-moi en deux lignes ce que vous cherchez à faire. Je réponds
+          sous 24 heures, et je dis aussi quand je ne suis pas la bonne personne.
+        </p>
+      </div>
+      <ul class="coordonnees">
+        <li>
+          <span class="quoi">Courriel</span>
+          <a href="mailto:john.doe@example.com">john.doe@example.com</a>
+        </li>
+        <li>
+          <span class="quoi">Où</span>
+          <span class="valeur">Paris — sur place ou à distance</span>
+        </li>
+        <li>
+          <span class="quoi">GitHub</span>
+          <a href="https://example.com/johndoe" rel="nofollow noopener">example.com/johndoe</a>
+        </li>
+        <li>
+          <span class="quoi">LinkedIn</span>
+          <a href="https://example.com/in/johndoe" rel="nofollow noopener">example.com/in/johndoe</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<!-- ---------------------------------------------------------
+     Le moulin du pied de page
+
+     Le même moulin que là-haut — mêmes proportions, reprises
+     du module 3D — mais on a atterri : le regard est au sol,
+     l'horizon est la ligne du pied de page, et le paysage n'est
+     plus qu'une bande d'herbe. Le moulin, lui, garde sa taille,
+     et la dépasse largement : c'est ce décalage qui dit qu'on
+     n'est plus en vol.
+
+     Du balisage, pas du script : sans JavaScript le moulin est
+     là, simplement il ne tourne pas. Et il ne tourne qu'une
+     fois qu'on est descendu jusqu'à lui — voir plus bas.
+     --------------------------------------------------------- -->
+<div class="moulin-pied" aria-hidden="true">
+  <svg class="moulin-pied-sol" viewBox="0 0 120 14" preserveAspectRatio="none" focusable="false">
+    <!-- Le lointain se dilue : c'est la brume du décor du haut (C.fog), qui
+         mange la couleur à mesure qu'on s'éloigne. Chaque plan part donc de
+         presque rien en haut pour retrouver son vert franc à nos pieds — et
+         le plus lointain est aussi le plus pâle des trois. -->
+    <defs>
+      <linearGradient id="sol-loin" x1="0" y1="4" x2="0" y2="14" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#eef1ea"/>
+        <stop offset="0.45" stop-color="#cfdfae"/>
+        <stop offset="1" stop-color="#aecb74"/>
+      </linearGradient>
+      <linearGradient id="sol-pres" x1="0" y1="7" x2="0" y2="14" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#c3d996"/>
+        <stop offset="1" stop-color="#86b258"/>
+      </linearGradient>
+      <linearGradient id="sol-pied" x1="0" y1="10.6" x2="0" y2="14" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#7ba95c"/>
+        <stop offset="1" stop-color="#5f9147"/>
+      </linearGradient>
+    </defs>
+    <path class="sol-loin" d="M0 14V5.4c14-1.5 26 1.2 41 .5s31-2.6 45-1.4S112 6.2 120 5.1V14Z"/>
+    <path class="sol-pres" d="M0 14V8.6c18-1.3 30 .9 48 .4s34-2 52-1.1S113 9.4 120 8.4V14Z"/>
+    <path class="sol-pied" d="M0 14v-2.6c22-.9 38 .7 60 .3s40-1.3 60-.6V14Z"/>
+  </svg>
+
+  <svg class="moulin-pied-tour" viewBox="-11 -23 22 23" focusable="false">
+    <defs>
+      <linearGradient id="moulin-fut" x1="0" x2="1">
+        <stop offset="0" stop-color="#f7f0e2"/>
+        <stop offset="0.62" stop-color="#f2e9d8"/>
+        <stop offset="1" stop-color="#ddd0b7"/>
+      </linearGradient>
+    </defs>
+
+    <!-- L'ombre portée : elle assoit le moulin sur l'herbe -->
+    <ellipse class="moulin-ombre" cx="0.6" cy="-0.1" rx="5.4" ry="0.85"/>
+
+    <g class="moulin-pied-rotor">
+      <g class="moulin-bois">
+          <g class="aile">
+            <rect x="-0.17" y="-22.80" width="0.34" height="9.4"/>
+            <rect x="0" y="-14.81" width="2.1" height="0.22"/>
+            <rect x="0" y="-16.06" width="2.1" height="0.22"/>
+            <rect x="0" y="-17.31" width="2.1" height="0.22"/>
+            <rect x="0" y="-18.56" width="2.1" height="0.22"/>
+            <rect x="0" y="-19.81" width="2.1" height="0.22"/>
+            <rect x="0" y="-21.06" width="2.1" height="0.22"/>
+            <rect x="0" y="-22.31" width="2.1" height="0.22"/>
+            <rect x="1.95" y="-22.40" width="0.20" height="8"/>
+          </g>
+          <g class="aile" transform="rotate(90 0 -13.2)">
+            <rect x="-0.17" y="-22.80" width="0.34" height="9.4"/>
+            <rect x="0" y="-14.81" width="2.1" height="0.22"/>
+            <rect x="0" y="-16.06" width="2.1" height="0.22"/>
+            <rect x="0" y="-17.31" width="2.1" height="0.22"/>
+            <rect x="0" y="-18.56" width="2.1" height="0.22"/>
+            <rect x="0" y="-19.81" width="2.1" height="0.22"/>
+            <rect x="0" y="-21.06" width="2.1" height="0.22"/>
+            <rect x="0" y="-22.31" width="2.1" height="0.22"/>
+            <rect x="1.95" y="-22.40" width="0.20" height="8"/>
+          </g>
+          <g class="aile" transform="rotate(180 0 -13.2)">
+            <rect x="-0.17" y="-22.80" width="0.34" height="9.4"/>
+            <rect x="0" y="-14.81" width="2.1" height="0.22"/>
+            <rect x="0" y="-16.06" width="2.1" height="0.22"/>
+            <rect x="0" y="-17.31" width="2.1" height="0.22"/>
+            <rect x="0" y="-18.56" width="2.1" height="0.22"/>
+            <rect x="0" y="-19.81" width="2.1" height="0.22"/>
+            <rect x="0" y="-21.06" width="2.1" height="0.22"/>
+            <rect x="0" y="-22.31" width="2.1" height="0.22"/>
+            <rect x="1.95" y="-22.40" width="0.20" height="8"/>
+          </g>
+          <g class="aile" transform="rotate(270 0 -13.2)">
+            <rect x="-0.17" y="-22.80" width="0.34" height="9.4"/>
+            <rect x="0" y="-14.81" width="2.1" height="0.22"/>
+            <rect x="0" y="-16.06" width="2.1" height="0.22"/>
+            <rect x="0" y="-17.31" width="2.1" height="0.22"/>
+            <rect x="0" y="-18.56" width="2.1" height="0.22"/>
+            <rect x="0" y="-19.81" width="2.1" height="0.22"/>
+            <rect x="0" y="-21.06" width="2.1" height="0.22"/>
+            <rect x="0" y="-22.31" width="2.1" height="0.22"/>
+            <rect x="1.95" y="-22.40" width="0.20" height="8"/>
+          </g>
+      </g>
+      <circle class="moulin-bois" cx="0" cy="-13.2" r="0.42"/>
+    </g>
+
+    <!-- Le fût, la porte, le bandeau, la calotte : cotes du module 3D -->
+    <polygon fill="url(#moulin-fut)" points="-3.9,0 3.9,0 2.5,-12.5 -2.5,-12.5"/>
+    <rect class="moulin-bois" x="-0.6" y="-2.2" width="1.2" height="2.2" rx="0.55"/>
+    <rect class="moulin-bois" x="-2.75" y="-12.65" width="5.5" height="0.5"/>
+    <polygon class="moulin-calotte" points="-3.1,-12.6 3.1,-12.6 0,-16"/>
+    <polygon class="moulin-calotte-ombre" points="0,-12.6 3.1,-12.6 0,-16"/>
+
+    <!-- Les ailes, et leur moyeu en (0, -13.2). Elles sont peintes avant le
+         bâtiment, donc elles passent derrière : on ne voit tourner que ce
+         qui dépasse du fût et de la calotte, et la pale du bas disparaît
+         puis réapparaît. C'est ce qui donne l'épaisseur au moulin — devant,
+         les quatre pales tournaient à plat, comme un disque posé dessus.
+
+         Les quatre sont à angle droit : leur boîte est donc un carré centré
+         sur le moyeu, et c'est ce qui donne au CSS son centre de rotation. -->
+  </svg>
+</div>
+
+<footer class="pied">
+  <div class="pied-inner">
+    <p>© 2026 John Doe — Paris</p>
+    <ul class="pied-liens">
+      <li><a href="mailto:john.doe@example.com">Courriel</a></li>
+      <li><a href="https://example.com/johndoe" rel="nofollow noopener">GitHub</a></li>
+      <li><a href="https://example.com/in/johndoe" rel="nofollow noopener">LinkedIn</a></li>
+      <li><a href="#haut">Haut de page</a></li>
+    </ul>
+  </div>
+  <div class="mention-ia-boite">
+    <p class="credits">
+      Titres composés en <a href="https://github.com/RingoSeeber/Petrona" rel="noopener">Petrona</a>,
+      dessinée par Ringo R. Seeber et diffusée sous licence SIL Open Font 1.1.
+      Décor animé avec <a href="https://threejs.org/" rel="noopener">Three.js</a>.
+    </p>
+    <p class="mention-ia">
+      Maquette de portefolio, sans aucun contenu réel : John Doe, les
+      entreprises, les projets, les chiffres, les diplômes et les témoignages
+      sont entièrement inventés, et les adresses ne mènent nulle part. Page
+      réalisée avec l'assistance d'une intelligence artificielle.
+    </p>
+  </div>
+</footer>
+
+<script>
+  /* ---------------------------------------------------------
+     Les trois petits services de la page. Rien d'essentiel : sans ce script,
+     tout le contenu reste lisible et navigable — d'où la classe `js`, qui
+     n'active les styles d'apparition que si le script tourne vraiment.
+     --------------------------------------------------------- */
+  (function () {
+    document.documentElement.classList.add('js');
+
+    const moinsDAnimation = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* 1. La barre prend un fond dès qu'on quitte le paysage. */
+    const barre = document.getElementById('barre');
+    const majBarre = () => barre.classList.toggle('barre--posee', window.scrollY > 40);
+    addEventListener('scroll', majBarre, { passive: true });
+    majBarre();
+
+    /* 2. Les blocs entrent en montant, une fois seulement.
+
+       Un seul endroit est en cascade — les projets — et le décalage y est
+       plafonné : au-delà de quelques éléments, l'attente se remarquerait plus
+       que l'effet. */
+    const PAS = 0.085;      // secondes entre deux voisins
+    document.querySelectorAll('[data-cascade]').forEach((groupe) => {
+      [...groupe.children]
+        .filter((n) => n.classList.contains('apparait'))
+        .forEach((n, i) => n.style.setProperty('--retard', Math.min(i, 5) * PAS + 's'));
+    });
+
+    const blocs = document.querySelectorAll('.apparait');
+    const tousVisibles = () => blocs.forEach((n) => n.classList.add('apparait--vu'));
+    // Ces blocs partent à `opacity: 0` : si quoi que ce soit tourne mal ici,
+    // c'est la page entière qui reste blanche. On se donne donc le droit de
+    // tout montrer d'un coup au moindre incident.
+    try {
+      if ('IntersectionObserver' in window && !moinsDAnimation) {
+        const guetteur = new IntersectionObserver((entrees) => {
+          for (const e of entrees) {
+            if (!e.isIntersecting) continue;
+            e.target.classList.add('apparait--vu');
+            guetteur.unobserve(e.target);      // une entrée en scène suffit
+          }
+        }, { rootMargin: '0px 0px -12% 0px' });
+        blocs.forEach((n) => guetteur.observe(n));
+      } else {
+        tousVisibles();
+      }
+    } catch (e) {
+      tousVisibles();
+    }
+
+
+    /* 3. Le menu souligne la section qu'on est en train de lire. */
+    const liens = [...document.querySelectorAll('.menu a')];
+    const cibles = liens
+      .map((a) => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
+    if ('IntersectionObserver' in window && cibles.length) {
+      const vues = new Set();
+      const sentinelle = new IntersectionObserver((entrees) => {
+        for (const e of entrees) {
+          if (e.isIntersecting) vues.add(e.target); else vues.delete(e.target);
+        }
+        // La première des sections visibles dans l'ordre de la page : celle
+        // qu'on est en train de lire.
+        const active = cibles.find((c) => vues.has(c)) || null;
+        liens.forEach((a) => {
+          if (active && a.getAttribute('href').slice(1) === active.id) {
+            a.setAttribute('aria-current', 'true');
+          } else {
+            a.removeAttribute('aria-current');
+          }
+        });
+      }, { rootMargin: '-30% 0px -55% 0px' });
+      cibles.forEach((c) => sentinelle.observe(c));
+    }
+  })();
+</script>
+
+<!-- Le décor 3D. « defer » garde l'ordre d'exécution et attend le DOM,
+     pendant que la brume de chargement occupe le terrain. -->
+<script defer src="three.min.js"></script>
+
+<!-- Le socle : relief, rivière, étang, route, ponts, village, ciel,
+     lumière, trajectoire de vol et boucle de rendu. -->
+<script defer src="paysage3d.core.js"></script>
+
+<!-- Les modules. Retirez-en une ligne : l'élément disparaît du décor, le
+     reste tient debout. L'ordre des balises est indifférent. -->
+<script defer src="paysage3d.vegetation.js"></script>
+<script defer src="paysage3d.moulin.js"></script>
+<script defer src="paysage3d.soleil.js"></script>
+<script defer src="paysage3d.nuages.js"></script>
+<script defer src="paysage3d.oiseaux.js"></script>
+<script defer src="paysage3d.montgolfiere.js"></script>
+<script defer src="paysage3d.fumee.js"></script>
+<script defer src="paysage3d.tracteur.js"></script>
+
+<!-- Les deux décors du corps de page. Ils ne dépendent pas de Three.js, et
+     ne s'éveillent que lorsqu'on arrive à leur hauteur. -->
+<script defer src="oiseaux-parcours.js"></script>
+<script defer src="moulin-pied.js"></script>
+</body>
+</html>

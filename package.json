@@ -1,0 +1,9 @@
+{
+  "name": "portefolio",
+  "private": true,
+  "scripts": {
+    "build": "node build.mjs",
+    "start": "python3 -m http.server 8412 --directory src",
+    "start:dist": "python3 -m http.server 8413 --directory dist"
+  }
+}
